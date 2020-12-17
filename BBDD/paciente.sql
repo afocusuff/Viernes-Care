@@ -6,7 +6,7 @@
 -- Tiempo de generación: 17-12-2020 a las 10:22:39
 -- Versión del servidor: 5.7.24
 -- Versión de PHP: 7.2.19
-
+--base de tados 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
