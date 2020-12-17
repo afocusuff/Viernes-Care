@@ -35,5 +35,28 @@
 				$statement->bindValue(':'.$param, $value);
 		}
 		return $statement;
-   }
+  }
+
+
+  //validar los datos del paciente
+  function  validateUser($context, $dni,$code){
+    ////da un error si se cambia el variable resultado a result///
+    $statment = $context->prepare("SELECT * FROM paciente WHERE docIdPaciente= :docIdPaciente");
+    $statment->bindParam(":docIdPaciente", $dni);
+    $statment->execute();
+    $count=$statment->rowCount();
+    if($count ==1){
+        $userData=$statment->fetch(PDO::FETCH_OBJ);
+        $isPassValid = password_verify($code, $userData->pass);
+        //$isPassValid = strcmp($pass, $userData->pass);
+        if($isPassValid){
+            return $userData; 
+        }else{
+            return null;
+        }
+    }
+    else{
+        return null;
+    }
+  }
  ?>
