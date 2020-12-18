@@ -46,7 +46,12 @@ CREATE TABLE `paciente` (
   `docIdPaciente` varchar(9) COLLATE utf8mb4_spanish2_ci NOT NULL,
   `emailPaciente` varchar(50) COLLATE utf8mb4_spanish2_ci NOT NULL,
   `telefonoPaciente` int(9) NOT NULL,
+<<<<<<< HEAD
+  `clavePaciente` int(8) NOT NULL,
+  `estado` varchar(9) COLLATE utf8mb4_spanish2_ci NULL
+=======
   `estado` varchar(9) COLLATE utf8mb4_spanish2_ci DEFAULT NULL
+>>>>>>> b8d0831e638d61b2fe940cb6b01a86ed208f0a35
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 --

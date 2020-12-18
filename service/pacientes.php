@@ -9,6 +9,18 @@ $dbConn =  connect($db);
  */
 if ($_SERVER['REQUEST_METHOD'] == 'GET')
 {
+  //El rastreador podra buscar un paciente
+if(isset($_GET['DNI']) && (isset($_GET['roll']) && ($_GET['roll'] == 'rastreador' || $_GET['roll'] == 'medico' ))){
+  $statment = $dbConn->prepare("SELECT * FROM paciente WHERE docIdPaciente= :docIdPaciente");
+    $statment->bindParam(":docIdPaciente", $_GET['DNI']);
+    $statment->execute();
+    $count=$statment->rowCount();
+    if($count ==1){
+      header("HTTP/1.1 200 OK");
+      echo json_encode($statment->fetch(PDO::FETCH_OBJ));
+    }
+  }
+  //Devolver los datos al paciente
   //Si el DNI y EL CODE estan Informados accedemos a verificar el paciente
   if(isset($_GET['DNI']) && isset($_GET['CODE'])){
 
@@ -108,8 +120,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT')
       header("HTTP/1.1 200 OK");
       exit();
     }
-    if($_GET['rol'] == 'medico'){
 
+    // si es medico solo actualizar estado
+    if($_GET['rol'] == 'medico' && isset($_GET['estado'])){
+      $estado = $_GET['estado'];
+      $sql = "UPDATE paciente SET estado WHERE docIdPaciente='$dni'";
+
+      $statement = $dbConn->prepare($sql);
+      bindAllValues($statement, $estado);
+      $statement->execute();
+      header("HTTP/1.1 200 OK");
+      exit();
     }
   }
   //$input = $_GET;
