@@ -1,5 +1,4 @@
 <?php
-
   //Abrir conexion a la base de datos
   function connect($db)
   {
@@ -35,7 +34,7 @@
 				$statement->bindValue(':'.$param, $value);
 		}
 		return $statement;
-  }
+}
 
 
   //validar los datos del paciente
@@ -58,6 +57,4 @@ function  validateUser($context, $dni,$code){
     else{
         return null;
     }
-  }
- 
- ?>
+}
