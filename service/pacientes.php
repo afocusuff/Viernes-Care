@@ -87,24 +87,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                echo json_encode($input);
               exit();
             }
-    }elseif(isset($_POST['rol']) && $_POST['rol'] == "medico" && isset($_POST["idPaciente"]) && isset($_POST["estado"])){
+    }
+    if(isset($_POST['rol']) && $_POST['rol'] == "medico" && isset($_POST["idPaciente"]) && isset($_POST["estado"]) && isset($_POST["seguimiento"])){
           // $input = $_POST;
-          $fecha = new DateTime("NOW");
+          $estado = $_POST["estado"];
+          $fecha = date('y-m-d H:m:s');
           $sqlNota = "INSERT INTO nota (fecha_hora,seguimiento,idPaciente) VALUES (:fecha_hora,:seguimiento,:idPaciente)";
           $statement = $dbConn->prepare($sqlNota);
           $statement->bindParam(":fecha_hora", $fecha);
           $statement->bindParam(":seguimiento", $_POST["seguimiento"]);
           $statement->bindParam(":idPaciente", $_POST["idPaciente"]);
           $statement->execute();
+          
 
-          $sqlEstado ="UPDATE INTO paciente (estado) VALUES (:estado)";
+          $sqlEstado ="UPDATE paciente SET estado=:estado WHERE idPaciente =$_POST[idPaciente] ";
           $statement = $dbConn->prepare($sqlEstado);
-          $statement->bindParam(":estado", $_POST["estado"]);
+          $statement->bindParam(":estado",$estado );
           $statement->execute();
-    }else{
+          header("HTTP/1.1 200 OK");
+          exit();
+    }
+    else{
         header("HTTP/1.1 404 NOT FOUND");
     }
-    
     exit();
 }
 
