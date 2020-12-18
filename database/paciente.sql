@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 17-12-2020 a las 13:32:11
+-- Tiempo de generación: 18-12-2020 a las 09:03:27
 -- Versión del servidor: 5.7.24
 -- Versión de PHP: 7.2.19
 
@@ -24,6 +24,19 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `nota`
+--
+
+CREATE TABLE `nota` (
+  `idNota` int(11) NOT NULL,
+  `fecha_hora` datetime NOT NULL,
+  `seguimiento` varchar(255) COLLATE utf8mb4_spanish2_ci NOT NULL,
+  `idPaciente` int(8) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `paciente`
 --
 
@@ -33,12 +46,7 @@ CREATE TABLE `paciente` (
   `docIdPaciente` varchar(9) COLLATE utf8mb4_spanish2_ci NOT NULL,
   `emailPaciente` varchar(50) COLLATE utf8mb4_spanish2_ci NOT NULL,
   `telefonoPaciente` int(9) NOT NULL,
-<<<<<<< HEAD
-  `clavePaciente` int(8) NOT NULL,
-  `estado` varchar(9) COLLATE utf8mb4_spanish2_ci NULL
-=======
   `estado` varchar(9) COLLATE utf8mb4_spanish2_ci DEFAULT NULL
->>>>>>> b8d0831e638d61b2fe940cb6b01a86ed208f0a35
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 --
@@ -54,6 +62,13 @@ INSERT INTO `paciente` (`idPaciente`, `clavePaciente`, `docIdPaciente`, `emailPa
 --
 
 --
+-- Indices de la tabla `nota`
+--
+ALTER TABLE `nota`
+  ADD PRIMARY KEY (`idNota`),
+  ADD KEY `idPaciente` (`idPaciente`);
+
+--
 -- Indices de la tabla `paciente`
 --
 ALTER TABLE `paciente`
@@ -66,10 +81,26 @@ ALTER TABLE `paciente`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `nota`
+--
+ALTER TABLE `nota`
+  MODIFY `idNota` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `paciente`
 --
 ALTER TABLE `paciente`
   MODIFY `idPaciente` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `nota`
+--
+ALTER TABLE `nota`
+  ADD CONSTRAINT `nota_ibfk_1` FOREIGN KEY (`idPaciente`) REFERENCES `paciente` (`idPaciente`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

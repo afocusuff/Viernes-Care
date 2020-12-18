@@ -9,8 +9,8 @@ $dbConn =  connect($db);
  */
 if ($_SERVER['REQUEST_METHOD'] == 'GET')
 {
-  //El rastreador podra buscar un paciente
-if(isset($_GET['DNI']) && (isset($_GET['roll']) && ($_GET['roll'] == 'rastreador' || $_GET['roll'] == 'medico' ))){
+  //El rastreador y el médico podrán buscar un paciente
+if(isset($_GET['DNI']) && (isset($_GET['rol']) && ($_GET['rol'] == 'rastreador' || $_GET['rol'] == 'medico' ))){
   $statment = $dbConn->prepare("SELECT * FROM paciente WHERE docIdPaciente= :docIdPaciente");
     $statment->bindParam(":docIdPaciente", $_GET['DNI']);
     $statment->execute();
@@ -87,8 +87,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                echo json_encode($input);
               exit();
             }
-    }elseif(isset($_POST['rol']) && $_POST['rol'] == "medico"){
-      $input = $_POST;
+    }elseif(isset($_POST['rol']) && $_POST['rol'] == "medico" && isset($_POST["idPaciente"]) && isset($_POST["estado"])){
+          // $input = $_POST;
+          $fecha = new DateTime("NOW");
+          $sqlNota = "INSERT INTO nota (fecha_hora,seguimiento,idPaciente) VALUES (:fecha_hora,:seguimiento,:idPaciente)";
+          $statement = $dbConn->prepare($sqlNota);
+          $statement->bindParam(":fecha_hora", $fecha);
+          $statement->bindParam(":seguimiento", $_POST["seguimiento"]);
+          $statement->bindParam(":idPaciente", $_POST["idPaciente"]);
+          $statement->execute();
+
+          $sqlEstado ="UPDATE INTO paciente (estado) VALUES (:estado)";
+          $statement = $dbConn->prepare($sqlEstado);
+          $statement->bindParam(":estado", $_POST["estado"]);
+          $statement->execute();
     }else{
         header("HTTP/1.1 404 NOT FOUND");
     }
