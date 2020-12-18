@@ -10,9 +10,9 @@ $dbConn =  connect($db);
 if ($_SERVER['REQUEST_METHOD'] == 'GET')
 {
   //El rastreador y el médico podrán buscar un paciente
-if(isset($_GET['DNI']) && (isset($_GET['rol']) && ($_GET['rol'] == 'rastreador' || $_GET['rol'] == 'medico' ))){
+if(isset($_GET['docIdPaciente']) && (isset($_GET['rol']) && ($_GET['rol'] == 'rastreador' || $_GET['rol'] == 'medico' ))){
   $statment = $dbConn->prepare("SELECT * FROM paciente WHERE docIdPaciente= :docIdPaciente");
-    $statment->bindParam(":docIdPaciente", $_GET['DNI']);
+    $statment->bindParam(":docIdPaciente", $_GET['docIdPaciente']);
     $statment->execute();
     $count=$statment->rowCount();
     if($count ==1){
@@ -22,11 +22,11 @@ if(isset($_GET['DNI']) && (isset($_GET['rol']) && ($_GET['rol'] == 'rastreador' 
   }
   //Devolver los datos al paciente
   //Si el DNI y EL CODE estan Informados accedemos a verificar el paciente
-  if(isset($_GET['DNI']) && isset($_GET['CODE'])){
+  if(isset($_GET['docIdPaciente']) && isset($_GET['code'])){
 
     //Verificamos si el paciente existe, si existe devuelve los datos de paciente
     //si no existe devolverá null
-    $dataUser = validateUser($conn,$_GET['DNI'],$_GET['CODE']);
+    $dataUser = validateUser($dbConn,$_GET['docIdPaciente'],$_GET['code']);
 
     //si el paciente existe se le mandará el cliente lo datos corespondientes
     if($dataUser != null){
@@ -40,26 +40,6 @@ if(isset($_GET['DNI']) && (isset($_GET['rol']) && ($_GET['rol'] == 'rastreador' 
       exit();
     }
   }
-
-  //   if (isset($_GET['Code']))
-  //   {
-  //     //Mostrar un post
-  //     $sql = $dbConn->prepare("SELECT * FROM country where Code=:Code");
-  //     $sql->bindValue(':Code', $_GET['Code']);
-  //     $sql->execute();
-  //     header("HTTP/1.1 200 OK");
-  //     echo json_encode(  $sql->fetch(PDO::FETCH_ASSOC)  );
-  //     exit();
-	//   }
-  //   else {
-  //     //Mostrar lista de post
-  //     $sql = $dbConn->prepare("SELECT * FROM country");
-  //     $sql->execute();
-  //     $sql->setFetchMode(PDO::FETCH_ASSOC);
-  //     header("HTTP/1.1 200 OK");
-  //     echo json_encode( $sql->fetchAll()  );
-  //     exit();
-	// }
 }
 
 // Crear un nuevo post
@@ -72,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             $sql = "INSERT INTO paciente
             (docIdPaciente, clavePaciente, emailPaciente, telefonoPaciente)
             VALUES
-             (:docIdPaciente, :clavePaciente, :emailPaciente, :telefonoPaciente)";
+            (:docIdPaciente, :clavePaciente, :emailPaciente, :telefonoPaciente)";
             $statement = $dbConn->prepare($sql);
            //bindAllValues($statement, $input);
             $statement->bindParam(':docIdPaciente', $_POST['docIdPaciente']);
@@ -82,9 +62,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             $statement->execute();
             $count = $statement->rowCount();
             if($count == 1)
-             {
-               header("HTTP/1.1 200 OK");
-               echo json_encode($input);
+            {
+              header("HTTP/1.1 200 OK");
+              echo json_encode($input);
               exit();
             }
     }
@@ -112,18 +92,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     }
     exit();
 }
-
-//Borrar
-if ($_SERVER['REQUEST_METHOD'] == 'DELETE')
-{
-	// $id = $_GET['Code'];
-  // $statement = $dbConn->prepare("DELETE FROM country where Code=:id");
-  // $statement->bindValue(':id', $id);
-  // $statement->execute();
-	// header("HTTP/1.1 200 OK");
-	// exit();
-}
-
 //Actualizar
 //Para poder actualizar el paciente hay dos caso
 /*
@@ -138,10 +106,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT')
 {
   //si el dni y el rol estan infromados
   //si estan informados verificado el tipo de rol
-  if(isset($_GET['DNI']) && isset($_GET['rol'])){
+  if(isset($_GET['docIdPaciente']) && isset($_GET['rol'])){
     if($_GET['rol'] == 'rastreador'){
+      unset($_GET['rol']);
       $input = $_GET;
-      $dni = $input['DNI'];
+      $dni = $input['docIdPaciente'];
       $fields = getParams($input);
       $sql = "UPDATE paciente SET $fields WHERE docIdPaciente='$dni'";
 
@@ -164,22 +133,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT')
       exit();
     }
   }
-  //$input = $_GET;
-  //$postId = $input['Code'];
-  // $fields = getParams($input);
-
-    // $sql = "
-    //       UPDATE country
-    //       SET $fields
-    //       WHERE Code='$postId'
-    //        ";
-
-    // $statement = $dbConn->prepare($sql);
-    // bindAllValues($statement, $input);
-
-    // $statement->execute();
-    // header("HTTP/1.1 200 OK");
-    // exit();
 }
 
 //En caso de que ninguna de las opciones anteriores se haya ejecutado

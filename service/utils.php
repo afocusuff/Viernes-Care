@@ -39,7 +39,7 @@
 
 
   //validar los datos del paciente
-  function  validateUser($context, $dni,$code){
+function  validateUser($context, $dni,$code){
     ////da un error si se cambia el variable resultado a result///
     $statment = $context->prepare("SELECT * FROM paciente WHERE docIdPaciente= :docIdPaciente");
     $statment->bindParam(":docIdPaciente", $dni);
@@ -47,8 +47,8 @@
     $count=$statment->rowCount();
     if($count ==1){
         $userData=$statment->fetch(PDO::FETCH_OBJ);
-        $isPassValid = password_verify($code, $userData->pass);
-        //$isPassValid = strcmp($pass, $userData->pass);
+        //$isPassValid = password_verify($code, $userData->pass);
+        $isPassValid = $code === $userData->clavePaciente;
         if($isPassValid){
             return $userData; 
         }else{
