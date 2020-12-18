@@ -87,12 +87,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                echo json_encode($input);
               exit();
             }
+    }elseif(isset($_POST['rol']) && $_POST['rol'] == "medico"){
+      $input = $_POST;
     }else{
         header("HTTP/1.1 404 NOT FOUND");
     }
     
     exit();
-  }
+}
 
 //Borrar
 if ($_SERVER['REQUEST_METHOD'] == 'DELETE')
