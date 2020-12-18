@@ -10,20 +10,19 @@ $dbConn =  connect($db);
 if ($_SERVER['REQUEST_METHOD'] == 'GET')
 {
   //El rastreador y el médico podrán buscar un paciente
-if(isset($_GET['docIdPaciente']) && (isset($_GET['rol']) && ($_GET['rol'] == 'rastreador' || $_GET['rol'] == 'medico' ))){
-  $statment = $dbConn->prepare("SELECT * FROM paciente WHERE docIdPaciente= :docIdPaciente");
-    $statment->bindParam(":docIdPaciente", $_GET['docIdPaciente']);
-    $statment->execute();
-    $count=$statment->rowCount();
-    if($count ==1){
-      header("HTTP/1.1 200 OK");
-      echo json_encode($statment->fetch(PDO::FETCH_OBJ));
+  if(isset($_GET['docIdPaciente']) && (isset($_GET['rol']) && ($_GET['rol'] == 'rastreador' || $_GET['rol'] == 'medico' ))){
+      $statment = $dbConn->prepare("SELECT * FROM paciente WHERE docIdPaciente= :docIdPaciente");
+      $statment->bindParam(":docIdPaciente", $_GET['docIdPaciente']);
+      $statment->execute();
+      $count=$statment->rowCount();
+      if($count ==1){
+        header("HTTP/1.1 200 OK");
+        echo json_encode($statment->fetch(PDO::FETCH_OBJ));
+      }
     }
-  }
   //Devolver los datos al paciente
   //Si el DNI y EL CODE estan Informados accedemos a verificar el paciente
   if(isset($_GET['docIdPaciente']) && isset($_GET['code'])){
-
     //Verificamos si el paciente existe, si existe devuelve los datos de paciente
     //si no existe devolverá null
     $dataUser = validateUser($dbConn,$_GET['docIdPaciente'],$_GET['code']);
@@ -79,11 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
           $statement->bindParam(":idPaciente", $_POST["idPaciente"]);
           $statement->execute();
           
-
-          $sqlEstado ="UPDATE paciente SET estado=:estado WHERE idPaciente =$_POST[idPaciente] ";
-          $statement = $dbConn->prepare($sqlEstado);
-          $statement->bindParam(":estado",$estado );
-          $statement->execute();
           header("HTTP/1.1 200 OK");
           exit();
     }
@@ -113,7 +107,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT')
       $dni = $input['docIdPaciente'];
       $fields = getParams($input);
       $sql = "UPDATE paciente SET $fields WHERE docIdPaciente='$dni'";
-
       $statement = $dbConn->prepare($sql);
       bindAllValues($statement, $input);
       $statement->execute();
@@ -125,7 +118,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT')
     if($_GET['rol'] == 'medico' && isset($_GET['estado'])){
       $estado = $_GET['estado'];
       $sql = "UPDATE paciente SET estado WHERE docIdPaciente='$dni'";
-
       $statement = $dbConn->prepare($sql);
       bindAllValues($statement, $estado);
       $statement->execute();
@@ -137,5 +129,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT')
 
 //En caso de que ninguna de las opciones anteriores se haya ejecutado
 header("HTTP/1.1 400 Bad Request");
-
-?>
