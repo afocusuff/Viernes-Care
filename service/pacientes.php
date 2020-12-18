@@ -47,13 +47,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   //Verificamos el rol de usuario, si es rastreador
     if(isset($_POST['rol']) && $_POST['rol'] == "rastreador"){
             $input = $_POST;
-            $key = random_int(1000000, 99999999);
+            $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-!@#¡.?¡¿';
+            $key = substr(str_shuffle($permitted_chars), 0, 8);
             $sql = "INSERT INTO paciente
             (docIdPaciente, clavePaciente, emailPaciente, telefonoPaciente)
             VALUES
             (:docIdPaciente, :clavePaciente, :emailPaciente, :telefonoPaciente)";
             $statement = $dbConn->prepare($sql);
-           //bindAllValues($statement, $input);
+            //bindAllValues($statement, $input);
             $statement->bindParam(':docIdPaciente', $_POST['docIdPaciente']);
             $statement->bindParam(':clavePaciente', $key);
             $statement->bindParam(':emailPaciente', $_POST['emailPaciente']);
