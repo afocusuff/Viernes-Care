@@ -42,7 +42,7 @@ CREATE TABLE `nota` (
 
 CREATE TABLE `paciente` (
   `idPaciente` int(8) NOT NULL,
-  `clavePaciente` int(8) NOT NULL,
+  `clavePaciente` varchar(8) NOT NULL,
   `docIdPaciente` varchar(9) COLLATE utf8mb4_spanish2_ci NOT NULL,
   `emailPaciente` varchar(50) COLLATE utf8mb4_spanish2_ci NOT NULL,
   `telefonoPaciente` int(9) NOT NULL,

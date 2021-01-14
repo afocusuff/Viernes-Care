@@ -22,7 +22,7 @@ if(isset($_POST["actualizarPaciente"])){
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
     $result = curl_exec($ch);
-    $json_result = json_decode($result);
+    
     curl_close($ch);
     
 }
@@ -78,7 +78,10 @@ include("includes/head.html");
                         <input value="<?php  echo $json_result->estado; ?>" type="text" class="form-control" id="EstadoPaciente" readonly>
                     </div>
                 </div>
-                <input type="submit" name="actualizarPaciente" class="btn btn-success" value="Actualizar">
+                <div class="input-group">
+                    <a href="rastreador.php" class="btn btn-info mr-2">Volver</a>
+                    <input type="submit" name="actualizarPaciente" class="btn btn-success" value="Actualizar">
+                </div>
             </form>
         <?php
             }

@@ -49,6 +49,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             $input = $_POST;
             $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-!@#¡.?¡¿';
             $key = substr(str_shuffle($permitted_chars), 0, 8);
+
+            //Antes de insertar datos debemos verificar que no exista un paciente
+            //con el mismo documente
+            $stmtCheck = $dbConn->prepare("SELECT docIdPaciente FROM paciente WHERE docIdPaciente= :docIdPaciente");
+            $stmtCheck->bindParam(':docIdPaciente', $_POST['docIdPaciente']);
+            $stmtCheck->execute();
+            $Mycount=$stmtCheck->rowCount();
+            if($Mycount == 1){
+              header("HTTP/1.1 400 Bad Request");
+              //devolvemos un mesaje de error:
+              echo json_encode("Error: El Documento del paciente ya ha sido registrado");
+              exit();
+            }
+
+            //Verficar el email para que no se insertan usuario con el mismo email
+            $emailCheck = $dbConn->prepare("SELECT emailPaciente FROM paciente WHERE emailPaciente= :emailPaciente");
+            $emailCheck->bindParam(':emailPaciente', $_POST['emailPaciente']);
+            $emailCheck->execute();
+            $emailCount=$emailCheck->rowCount();
+            if($emailCount == 1){
+              header("HTTP/1.1 400 Bad Request");
+              //devolvemos un mesaje de error:
+              echo json_encode("Error: Ya hay un paciente con este email");
+              exit();
+            }
+
             $sql = "INSERT INTO paciente
             (docIdPaciente, clavePaciente, emailPaciente, telefonoPaciente)
             VALUES
