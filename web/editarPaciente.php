@@ -42,9 +42,13 @@ if(isset($_GET["doc"]) && !empty($_GET["doc"])){
 else{
     header('Location: index.php');
 }
-include("includes/head.html");
+include("includes/head.php");
 ?>
 <body>
+<?php
+        //incluyer cabecera
+        include("includes/header.php");
+    ?>
     <main class="container">
         <?php
         /*Si el rol es Rastreado podra Atualizar el paciente*/

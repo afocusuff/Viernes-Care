@@ -52,9 +52,13 @@ if(isset($_POST["anadirPaciente"])){
     }
     
 }
-include("includes/head.html");
+include("includes/head.php");
 ?>
 <body>
+<?php
+        //incluyer cabecera
+        include("includes/header.php");
+    ?>
     <main class="container">
         <h2>Datos del paciente</h2>
             <?php

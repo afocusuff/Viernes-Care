@@ -9,6 +9,14 @@ $dbConn =  connect($db);
  */
 if ($_SERVER['REQUEST_METHOD'] == 'GET')
 {
+  //Añadir un petecion de traer todos los pacientes.
+  //Solo traeremos los pacientes si el rol es medico o rastreador.
+  if((isset($_GET['rol']) && ($_GET['rol'] == 'rastreador' || $_GET['rol'] == 'medico' )) && !isset($_GET['docIdPaciente'])){
+    $statment = $dbConn->prepare("SELECT * FROM paciente");
+    $statment->execute();
+      header("HTTP/1.1 200 OK");
+      echo json_encode($statment->fetchAll());
+  }
   //El rastreador y el médico podrán buscar un paciente
   if(isset($_GET['docIdPaciente']) && (isset($_GET['rol']) && ($_GET['rol'] == 'rastreador' || $_GET['rol'] == 'medico' ))){
       $statment = $dbConn->prepare("SELECT * FROM paciente WHERE docIdPaciente= :docIdPaciente");
