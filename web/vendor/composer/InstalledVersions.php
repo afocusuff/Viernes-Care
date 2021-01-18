@@ -29,7 +29,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '7c45eb8e36c21fc4b8ad5d977d386c67aa287f97',
+    'reference' => '42ed5c40bdc3672bcf815b5ff766605380d51774',
     'name' => '__root__',
   ),
   'versions' => 
@@ -41,7 +41,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '7c45eb8e36c21fc4b8ad5d977d386c67aa287f97',
+      'reference' => '42ed5c40bdc3672bcf815b5ff766605380d51774',
     ),
     'doctrine/lexer' => 
     array (
@@ -96,6 +96,15 @@ private static $installed = array (
       array (
       ),
       'reference' => 'cc6e6f9b39fe8075b3dabfbaf5b5f645ae1340c9',
+    ),
+    'twilio/sdk' => 
+    array (
+      'pretty_version' => '6.16.0',
+      'version' => '6.16.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '2f1bb71f25c5ea141d75969ef0cdb895a63fdbaa',
     ),
   ),
 );

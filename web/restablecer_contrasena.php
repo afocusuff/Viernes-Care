@@ -10,4 +10,5 @@ include("includes/head.php");
 3-SI existe y no esta expirado podra restablecer la contraseña.
 */
 
+
 ?>

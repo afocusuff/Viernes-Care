@@ -1,5 +1,6 @@
 <?php
-    
+require 'vendor/autoload.php';
+use Twilio\Rest\Client;
     //PDO with Prepared Statements
     function  validateUserLoginPDO($context, $email,$pass){
         $statment = $context->prepare("SELECT * FROM usuario WHERE email= :email");
@@ -118,7 +119,7 @@
      //function pra validar email
     function SendEmail($token, $email,$id)
     {
-        require 'vendor/autoload.php';
+        
         $html = "<html>
        <head></head>
        <body>
@@ -147,8 +148,32 @@
         ;
         
         // Send the message
-        $result = $mailer->send($message);
+        $mailer->send($message);
     }
     
+    function sendSMS($tel){
+        // Required if your environment does not handle autoloading
+        
+
+        // Use the REST API Client to make requests to the Twilio REST API
+        
+
+        // Your Account SID and Auth Token from twilio.com/console
+        $sid = '**********';
+        $token = '*******';
+        $client = new Client($sid, $token);
+
+        // Use the client to do fun stuff like send text messages!
+        $client->messages->create(
+            // the number you'd like to send the message to
+            "+".$tel,
+            [
+                // A Twilio phone number you purchased at twilio.com/console
+                'from' => '+18304606174',
+                // the body of the text message you'd like to send
+                'body' => 'Has sido dado de alta en viernes care'
+            ]
+        );
+    }
 
 ?>

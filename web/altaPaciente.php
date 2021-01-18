@@ -27,6 +27,7 @@ if(isset($_POST["anadirPaciente"])){
         $isFormValid = false;
     }
     if($isFormValid){
+        $tel = $_POST['telefonoPaciente'];
         $data = array(
             'docIdPaciente' => $_POST['docIdPaciente'],
             'emailPaciente' => $_POST['emailPaciente'],
@@ -45,6 +46,7 @@ if(isset($_POST["anadirPaciente"])){
         if(strpos($result, 'Error') !== false){
             $error = $result;
         }else{
+            sendSMS($tel);
             $success = "El paciente se ha añadido con exito";
         }
         curl_close($ch);

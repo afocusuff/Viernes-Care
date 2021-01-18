@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="css/main.css" />
     <?php
     //Esta parte de codigo solo se aparecera si se ha iniciado session 
-        if ($isSignedIn) { ?>
+        if ($isSignedIn) { ?> 
             <link href="css/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
             <script src="js/jquery/jquery.min.js"></script>
             <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
