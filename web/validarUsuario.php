@@ -1,8 +1,9 @@
 <?php
+    session_start();
     include("./includes/_imports.php");
     require("./includes/config.php");
     include("./includes/functions.php");
-    session_start();
+    
     //si el boton submit informado y el campo email no esta vacio
     if(isset($_POST["submit"]) && !empty($_POST["email"]) ){
         $email = $_POST['email'];

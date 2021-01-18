@@ -11,7 +11,15 @@ include("includes/head.php");
 <body class="text-center align-items-center justify-content-center" style="background-image:url('img/bg-care.jpg'); padding-top: 40px;">
     <main class="container">
         <!-- formulario de registro-->
+        
         <form class="form-signin" action="validarUsuario.php" method="post">
+            <?php if(!empty($_GET['error'])){
+                    echo "<div class='alert alert-danger' role='alert'>
+                        $_GET[error]
+                    </div>";
+                }
+            ?>
+            
             <img class="mb-4" src="img/logo.png" alt="" width="80" height="80">
             <h1 class="h3 mb-3 font-weight-bold text-primary">VIERNES-CARE</h1>
             <label for="email" class="sr-only">Email address</label>
@@ -29,14 +37,17 @@ include("includes/head.php");
                 </div>
                 <input type="password" id="password" name="pass" class="form-control mb-0" placeholder="Contraseña" required="">
             </div>
-            
+
             <div class="checkbox mb-3 text-left text-white">
                 <label>
-                    <input type="checkbox" value="remember-me"> Remember me
+                    <input type="checkbox"  value="remember-me"> Remember me
                 </label>
             </div>
             <button name="submit" class="btn btn-lg btn-primary btn-block" type="submit">Acceder</button>
-            <p class="mt-5 mb-3 text-muted text-center">© <?php echo date('Y'); ?></p>
+            <p class="mt-3">
+                <a id="forgot-password" href="olvide_contrasena.php">¿Olvidaste tu contraseña?</a>
+            </p>
+            <p class="mt-4 mb-3 text-muted text-center">© <?php echo date('Y'); ?></p>
         </form>
     </main>
 </body>
